@@ -1,5 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'validates presence of title' do
+    expect(Question.new(body: '123')).to_not be_valid
+  end
 end
