@@ -28,8 +28,8 @@ RSpec.describe AnswersController, type: :controller do
       end
       
       it "redirects to show view" do
-        expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }.to change(question.answers, :count).by(1)
-        expect(response)  
+        post :create, params: { question_id: question.id, answer: attributes_for(:answer) }
+        expect(response).to redirect_to assigns(:answer) 
       end
     end
 
