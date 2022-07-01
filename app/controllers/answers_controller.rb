@@ -1,8 +1,15 @@
 class AnswersController < ApplicationController
-  before_action :find_question, only: %i[new]
+  before_action :find_question, only: %i[new create]
 
   def new
     @answer = @question.answers.build
+  end
+
+  def create
+    @answer = @question.answers.build(answer_params)
+    if @answer.save
+      redirect_to @answer
+    end
   end
 
   private 

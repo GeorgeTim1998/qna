@@ -18,4 +18,24 @@ RSpec.describe AnswersController, type: :controller do
       expect(response).to render_template :new
     end
   end
+
+  describe "GET #create" do
+    context 'with valid attributes' do
+      before { get :new, params: { question_id: question.id } }
+
+      it 'saves a new answer with a foreign key to the question to the database' do
+        expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }.to change(question.answers, :count).by(1)
+      end
+      
+      it "redirects to show view" do
+        post :create, params: { question_id: question.id, answer: attributes_for(:answer) }
+        expect(response).to redirect_to assigns(:answer) 
+      end
+    end
+
+    context 'with invalid attributes' do
+
+    end
+  end
+  
 end
