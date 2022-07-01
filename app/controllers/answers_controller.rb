@@ -14,7 +14,7 @@ class AnswersController < ApplicationController
     end
   end
 
-  private 
+  private
 
   def answer_params
     params.require(:answer).permit(:body)
