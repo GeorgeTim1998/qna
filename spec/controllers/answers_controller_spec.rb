@@ -10,7 +10,7 @@ RSpec.describe AnswersController, type: :controller do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
 
-    it 'assigns @question to @answer' do
+    it 'assigns @answer to @question' do
       expect(assigns(:answer).question).to eq question
     end
 
