@@ -32,9 +32,16 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to redirect_to assigns(:answer) 
       end
     end
-
+    
     context 'with invalid attributes' do
-
+      it 'doesnt save a new answer with invalid parameters' do
+        expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) } }.to_not change(question.answers, :count)
+      end
+      
+      it "renders new template" do
+        post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }
+        expect(response).to render_template :new 
+      end
     end
   end
   
