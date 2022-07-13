@@ -3,9 +3,7 @@ class QuestionsController < ApplicationController
     @question = Question.new
   end
 
-  def index
-    
-  end
+  def index; end
 
   def create
     @question = Question.new(question_params)
