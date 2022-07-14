@@ -1,3 +1,10 @@
 {
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+          "path": "bash",
+          "icon": "terminal-bash",
+          "args": ["--login"]
+        }
+    }
 }
