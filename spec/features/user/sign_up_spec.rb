@@ -10,7 +10,7 @@ feature 'User signs up' do
 
     click_on 'Sign up'
 
-    expect(page).to have_content 'Welcome! You have signed up successfully.'    
+    expect(page).to have_content 'Welcome! You have signed up successfully.'
   end
 
   scenario 'with invalid params' do
