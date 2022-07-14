@@ -5,11 +5,15 @@ class QuestionsController < ApplicationController
 
   def index; end
 
+  def show
+    find_question
+  end
+  
   def create
     @question = Question.new(question_params)
 
-    if @question.save
-      redirect_to @question
+    if @question.save!
+      redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
     end
@@ -19,5 +23,9 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body)
+  end
+
+  def find_question
+    @question = Question.find(params[:id])
   end
 end
