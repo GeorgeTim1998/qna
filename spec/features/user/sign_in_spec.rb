@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'User can sign in' do
-  given(:user) { User.create!(email: 'user@test.com', password: '13245679') }
+  given(:user) { create(:user) }
 
   background { visit new_user_session_path }
 
