@@ -1,18 +1,18 @@
 FactoryBot.define do
   factory :question do
-    title { 'MyString' }
-    body { 'MyText' }
+    title { 'MyQuestionString' }
+    body { 'MyQuestionText' }
 
     trait :invalid do
       title { nil }
     end
     
     factory :question_with_answers do
-      title { 'MyString1' }
-      body { 'MyText1' }
+      title { 'MyQuestionString1' }
+      body { 'MyQuestionText1' }
       
       transient do
-        answers_count { 2 }
+        answers_count { 3 }
       end
       
       answers do

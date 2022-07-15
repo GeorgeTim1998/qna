@@ -10,6 +10,7 @@ class QuestionsController < ApplicationController
 
   def show
     find_question
+    @answer = @question.answers.build
   end
 
   def create

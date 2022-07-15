@@ -5,10 +5,14 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build
   end
 
+  def show
+
+  end
+
   def create
     @answer = @question.answers.build(answer_params)
     if @answer.save
-      redirect_to @answer
+      redirect_to question_path(@answer.question), notice: 'Your answer has been sent successfully.'
     else
       render :new
     end
