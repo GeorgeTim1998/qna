@@ -4,7 +4,9 @@ class QuestionsController < ApplicationController
     @question = Question.new
   end
 
-  def index; end
+  def index
+    @questions = Question.all
+  end
 
   def show
     find_question
