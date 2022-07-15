@@ -14,7 +14,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to question_path(@answer.question), notice: 'Your answer has been sent successfully.'
     else
-      render :new
+      render 'questions/show'
     end
   end
 

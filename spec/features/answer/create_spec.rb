@@ -17,7 +17,12 @@ feature 'Create answer' do
       expect(page).to have_content 'Some text'
     end
 
-    scenario 'tries to send an answer with errors' 
+    scenario 'tries to send an answer with errors' do
+      click_on 'Reply'
+      save_and_open_page
+      
+      expect(page).to have_content "Body can't be blank"
+    end
   end
 
   describe 'Unauthenticated user' do
