@@ -43,8 +43,8 @@ RSpec.describe AnswersController, type: :controller do
         expect { response }.to_not change(question.answers, :count)
       end
 
-      it 'renders new template' do
-        expect(response).to render_template :new
+      it 'renders questions/show template' do
+        expect(response).to render_template 'questions/show'
       end
     end
   end

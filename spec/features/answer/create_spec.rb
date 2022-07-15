@@ -19,7 +19,6 @@ feature 'Create answer' do
 
     scenario 'tries to send an answer with errors' do
       click_on 'Reply'
-      save_and_open_page
       
       expect(page).to have_content "Body can't be blank"
     end
