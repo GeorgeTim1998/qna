@@ -25,6 +25,11 @@ feature 'Create answer' do
   end
 
   describe 'Unauthenticated user' do
-    scenario 'tries to send an answer'
+    scenario 'tries to send an answer' do
+     visit question_path(question)
+      click_on 'Reply'
+
+      expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    end
   end
 end
