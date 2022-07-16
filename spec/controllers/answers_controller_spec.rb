@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  subject(:question) { create(:question) }
+  let(:user) { create(:user) }
+  subject(:question) { create(:question, author: user) }
+  before { sign_in(user) }
 
   describe 'GET #new' do
     before { get :new, params: { question_id: question.id } }
