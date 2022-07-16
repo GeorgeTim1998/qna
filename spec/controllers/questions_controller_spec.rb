@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+require 'pp'
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
 
@@ -56,6 +56,35 @@ RSpec.describe QuestionsController, type: :controller do
       it 're-renders new view' do
         post :create, params: { question: attributes_for(:question, :invalid) }
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before { login(user) }
+    context 'when the user is the author' do
+      let!(:question) { create(:question, author: user) }
+      
+      it 'deletes the question from the database' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+      
+      it 'redirects to index' do
+        expect( delete :destroy, params: { id: question } ).to redirect_to root_path
+      end
+      
+    end
+    
+    context 'when the user is not the author' do 
+      let(:another_user) { create(:user) }      
+      let!(:question) { create(:question, author: another_user) }
+      
+      it 'does not delete the question from the database' do
+        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+      end
+      
+      it 'redirects to question/show' do
+        expect( delete :destroy, params: { id: question } ).to render_template 'questions/show'
       end
     end
   end
