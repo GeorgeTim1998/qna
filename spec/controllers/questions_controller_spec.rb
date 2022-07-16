@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'pp'
+
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
 
