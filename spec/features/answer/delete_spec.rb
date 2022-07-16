@@ -16,7 +16,18 @@ feature 'Destroying the answer' do
     expect(page).to have_no_content answer.body
   end
 
-  scenario 'Unauthorized user tries to delete the answer'
+  scenario 'Unauthorized user tries to delete the answer' do
+    sign_in(another_user)
+    visit question_path(question)
 
-  scenario 'Unauthenticated user tries to delete the answer'
+    expect(page).to have_content question.title
+    expect(page).to have_no_content 'Delete the question'
+  end
+
+  scenario 'Unauthenticated user tries to delete the answer' do
+    visit question_path(question)
+
+    expect(page).to have_content question.title
+    expect(page).to have_no_content 'Delete the question'
+  end
 end
