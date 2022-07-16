@@ -30,5 +30,4 @@ feature 'Create answer' do
     expect(page).to have_content question.title
     expect(page).to have_no_content 'Delete the question'
   end
-
 end

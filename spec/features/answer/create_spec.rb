@@ -12,21 +12,21 @@ feature 'Create answer' do
     scenario 'tries to answer' do
       fill_in 'Body', with: 'Some text'
       click_on 'Reply'
-      
+
       expect(page).to have_content 'Your answer has been sent successfully.'
       expect(page).to have_content 'Some text'
     end
 
     scenario 'tries to send an answer with errors' do
       click_on 'Reply'
-      
+
       expect(page).to have_content "Body can't be blank"
     end
   end
 
   describe 'Unauthenticated user' do
     scenario 'tries to send an answer' do
-     visit question_path(question)
+      visit question_path(question)
       click_on 'Reply'
 
       expect(page).to have_content 'You need to sign in or sign up before continuing.'

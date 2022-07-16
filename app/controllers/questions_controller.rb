@@ -13,10 +13,9 @@ class QuestionsController < ApplicationController
     if current_user.author_of?(@question)
       @question.destroy
       redirect_to root_path, notice: 'Your question successfully deleted.'
-    else 
+    else
       render 'questions/show'
     end
-    
   end
 
   def show
@@ -26,7 +25,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
-    @question.author = current_user 
+    @question.author = current_user
 
     if @question.save
       redirect_to @question, notice: 'Your question successfully created.'
