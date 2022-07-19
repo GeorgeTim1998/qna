@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  let(:user) { create(:user) }
+
   describe 'GET #new' do
+    before { login(user) }
+
     before { get :new }
 
     it 'assigns a new Question to @question' do
@@ -13,7 +17,23 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe 'GET #index' do
+    let(:questions) { create_list(:question, 3) }
+
+    before { get :index }
+
+    it 'populates an array of all questions' do
+      expect(assigns(:questions)).to match_array(questions)
+    end
+
+    it 'renders index view' do
+      expect(response).to render_template :index
+    end
+  end
+
   describe 'GET #create' do
+    before { login(user) }
+
     context 'with valid attributes' do
       it 'saves a new question to the database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
@@ -35,6 +55,34 @@ RSpec.describe QuestionsController, type: :controller do
       it 're-renders new view' do
         post :create, params: { question: attributes_for(:question, :invalid) }
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before { login(user) }
+    context 'when the user is the author' do
+      let!(:question) { create(:question, author: user) }
+
+      it 'deletes the question from the database' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index' do
+        expect(delete(:destroy, params: { id: question })).to redirect_to root_path
+      end
+    end
+
+    context 'when the user is not the author' do
+      let(:another_user) { create(:user) }
+      let!(:question) { create(:question, author: another_user) }
+
+      it 'does not delete the question from the database' do
+        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+      end
+
+      it 'redirects to question/show' do
+        expect(delete(:destroy, params: { id: question })).to render_template 'questions/show'
       end
     end
   end
