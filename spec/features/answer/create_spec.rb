@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Create answer' do
+feature 'Create answer', js: true do
   given(:question) { create(:question) }
 
   describe 'Authenticated user'  do
