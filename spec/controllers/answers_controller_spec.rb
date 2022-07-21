@@ -72,7 +72,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'DELETE #destroy' do
+  describe 'DELETE #destroy', js: true do
     before { login(user) }
     let!(:question) { create(:question, author: user) }
 
@@ -80,24 +80,24 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, author: user, question: question) }
 
       it 'deletes the answer from the database' do
-        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to index' do
-        expect(delete(:destroy, params: { id: answer })).to redirect_to root_path
+      it 'renders detroy template' do
+        expect(delete :destroy, params: { id: answer }, format: :js).to render_template :destroy
       end
     end
-
+    
     context 'when the user is not the author' do
       let(:another_user) { create(:user) }
       let!(:answer) { create(:answer, author: another_user, question: question) }
-
+      
       it 'does not delete the answer from the database' do
-        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
-
-      it 'redirects to question/show' do
-        expect(delete(:destroy, params: { id: answer })).to render_template 'questions/show'
+      
+      it 'renders detroy template' do
+        expect(delete :destroy, params: { id: answer }, format: :js ).to render_template :destroy
       end
     end
   end

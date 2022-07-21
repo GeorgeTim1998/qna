@@ -16,12 +16,7 @@ class AnswersController < ApplicationController
 
   def destroy
     find_answer
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      redirect_to root_path, notice: 'Your answer successfully deleted.'
-    else
-      render 'questions/show'
-    end
+    @answer.destroy if current_user.author_of?(@answer)
   end
 
   def create
