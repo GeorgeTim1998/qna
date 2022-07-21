@@ -1,8 +1,13 @@
 .answer-errors
   = render 'shared/errors', resource: @answer
 
-h1= @question.title
-p= @question.body
+.question-title-body
+  h1= @question.title
+  p= @question.body
+  - if current_user&.author_of?(@question)
+    p= link_to 'Edit question', '#', class: 'edit-question-link', data: {question_id: @question.id }
+    p= render 'questions/form'
+
 
 .answers
   = render @question.answers

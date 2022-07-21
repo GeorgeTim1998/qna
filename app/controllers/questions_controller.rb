@@ -20,6 +20,11 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def update
+    find_question
+    @question.update(question_params) if current_user.author_of?(@question)
+  end
+
   def show
     find_question
     @answer = @question.answers.build

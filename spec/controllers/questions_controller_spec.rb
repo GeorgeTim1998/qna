@@ -17,6 +17,21 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe 'PATCH #update' do
+    before { login(user) }
+    let!(:question) { create(:question, author: user) }
+
+    it "updates the question with inputted params" do
+      patch :update, params: { id: question, question: { title: 'Question1 title', body: 'Question1 body' } }, format: :js
+      
+      question.reload
+
+      expect(question.title).to eq 'Question1 title'
+      expect(question.body).to eq 'Question1 body'
+    end
+  end
+
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
 
