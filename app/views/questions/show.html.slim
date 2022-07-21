@@ -1,9 +1,11 @@
-= render 'shared/errors', resource: @answer
+.answer-errors
+  = render 'shared/errors', resource: @answer
 
 h1= @question.title
 p= @question.body
 
-= render @question.answers
+.answers
+  = render @question.answers
 = render 'answers/form'
 
 p= link_to 'Delete question', question_path(@question), method: :delete

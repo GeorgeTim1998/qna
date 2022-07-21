@@ -13,8 +13,9 @@ feature 'Create answer', js: true do
       fill_in 'Body', with: 'Some text'
       click_on 'Reply'
 
-      expect(page).to have_content 'Your answer has been sent successfully.'
-      expect(page).to have_content 'Some text'
+      within '.answers' do
+        expect(page).to have_content 'Some text'
+      end
     end
 
     scenario 'tries to send an answer with errors' do
@@ -27,9 +28,8 @@ feature 'Create answer', js: true do
   describe 'Unauthenticated user' do
     scenario 'tries to send an answer' do
       visit question_path(question)
-      click_on 'Reply'
 
-      expect(page).to have_content 'You need to sign in or sign up before continuing.'
+      expect(page).to_not have_content 'Reply'
     end
   end
 end
