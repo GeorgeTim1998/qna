@@ -1,5 +1,6 @@
 - if answer.persisted?
-  p= answer.body
+  p.answer-body
+    = answer.body
   - if user_signed_in? and current_user == answer.author
     
     div class="answer-#{answer.id}"

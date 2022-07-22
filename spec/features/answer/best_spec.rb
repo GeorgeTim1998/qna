@@ -40,6 +40,16 @@ feature 'Best answer' do
       expect(find(".answer-#{answer.id}")).to have_no_content 'Best answer'
       expect(find(".answer-#{another_answer.id}")).to have_content 'Best answer'
     end
+
+    scenario 'sees chosen best answer first', js: true do
+      expect(find('.answer-body', match: :first)).to have_content answer.body
+      
+      within ".answer-#{another_answer.id}" do
+        click_on 'Best'
+      end
+      
+      expect(find('.answer-body', match: :first)).to_not have_content answer.body
+    end
   end
 
   scenario 'Unauthorized user tries to choose the best answer' do
