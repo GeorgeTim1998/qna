@@ -12,4 +12,21 @@ RSpec.describe Answer, type: :model do
   context 'validations' do
     it { should validate_presence_of(:body) }
   end
+
+  describe 'best' do
+    subject(:answer) { build(:answer, best: true) }
+
+    context 'true' do
+      before { allow(answer).to receive(:best).and_return(true) }
+
+      it { is_expected.to validate_uniqueness_of(:best).scoped_to(:question_id) }
+    end
+    
+    context 'false' do
+      before { allow(answer).to receive(:best).and_return(false) }
+  
+      it { is_expected.not_to validate_uniqueness_of(:best).scoped_to(:question_id) }
+    end
+  end
+
 end
