@@ -26,28 +26,28 @@ feature 'Best answer' do
       within ".answer-#{answer.id}" do
         click_on 'Best'
       end
-      
+
       expect(find(".answer-#{answer.id}")).to have_content 'Best answer'
       expect(find(".answer-#{another_answer.id}")).to have_no_content 'Best answer'
-      
+
       within ".answer-#{another_answer.id}" do
         click_on 'Best'
-        
+
         expect(page).to have_content 'Best answer'
         expect(page).to have_no_link 'Best'
       end
-      
+
       expect(find(".answer-#{answer.id}")).to have_no_content 'Best answer'
       expect(find(".answer-#{another_answer.id}")).to have_content 'Best answer'
     end
 
     scenario 'sees chosen best answer first', js: true do
       expect(find('.answer-body', match: :first)).to have_content answer.body
-      
+
       within ".answer-#{another_answer.id}" do
         click_on 'Best'
       end
-      
+
       expect(find('.answer-body', match: :first)).to_not have_content answer.body
     end
   end
