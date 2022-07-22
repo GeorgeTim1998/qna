@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pp'
 
 feature 'Best answer' do
   given(:user) { create(:user) }
@@ -21,8 +22,21 @@ feature 'Best answer' do
       end
     end
 
-    scenario 'Unauthorized user tries to choose the best answer'
+    scenario 'tries to choose another best answer'
+  end
 
-    scenario 'Unauthenticated user tries to choose the best answer'
+  scenario 'Unauthorized user tries to choose the best answer' do
+    sign_in(another_user)
+    visit question_path(question)
+
+    expect(page).to have_content answer.body
+    expect(page).to have_no_content 'Best'
+  end
+
+  scenario 'Unauthenticated user tries to choose the best answer' do
+    visit question_path(question)
+
+    expect(page).to have_content answer.body
+    expect(page).to have_no_content 'Best'
   end
 end
