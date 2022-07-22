@@ -25,6 +25,12 @@ class AnswersController < ApplicationController
     @answer.save
   end
 
+  def best
+    find_answer
+    @question = @answer.question
+    @question.update_best_answer(@answer)
+  end
+
   private
 
   def answer_params

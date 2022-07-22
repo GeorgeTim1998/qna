@@ -34,7 +34,9 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      before { post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }, format: :js }
+      before do
+        post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }, format: :js
+      end
 
       it 'doesnt save a new answer with invalid parameters' do
         expect { response }.to_not change(question.answers, :count)
@@ -84,20 +86,20 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'renders detroy template' do
-        expect(delete :destroy, params: { id: answer }, format: :js).to render_template :destroy
+        expect(delete(:destroy, params: { id: answer }, format: :js)).to render_template :destroy
       end
     end
-    
+
     context 'when the user is not the author' do
       let(:another_user) { create(:user) }
       let!(:answer) { create(:answer, author: another_user, question: question) }
-      
+
       it 'does not delete the answer from the database' do
         expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
-      
+
       it 'renders detroy template' do
-        expect(delete :destroy, params: { id: answer }, format: :js ).to render_template :destroy
+        expect(delete(:destroy, params: { id: answer }, format: :js)).to render_template :destroy
       end
     end
   end
