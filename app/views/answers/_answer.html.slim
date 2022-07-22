@@ -2,10 +2,9 @@
   p= answer.body
   - if user_signed_in? and current_user == answer.author
     
-    - if !answer.best
-      p= link_to 'Best', best_answer_path(answer), method: :patch, remote: true, class: 'best-answer-link', data: { answer_id: answer.id } 
-
     div class="answer-#{answer.id}"
+      - if !answer.best
+        p= link_to 'Best', best_answer_path(answer), method: :patch, remote: true, class: "best-answer-link-#{answer.id}", data: { answer_id: answer.id } 
       - if answer.best
         = 'Best answer'
     

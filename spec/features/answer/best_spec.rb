@@ -8,12 +8,12 @@ feature 'Best answer' do
   given!(:answer) { create(:answer, question: question, author: user) }
 
   describe 'Authorized user', js: true do
-    given!(:another_answer) { create(:answer, body: 'another answer body', question: question) }
+    given!(:another_answer) { create(:answer, body: 'another answer body', question: question, author: user) }
 
     background { sign_in(user) }
     background { visit question_path(question) }
-    scenario 'tries to choose another best answer' do
-      within '.answers' do
+    scenario 'tries to choose best answer' do
+      within ".answer-#{answer.id}" do
         expect(page).to have_no_content 'Best answer'
         click_on 'Best'
 
@@ -22,7 +22,24 @@ feature 'Best answer' do
       end
     end
 
-    scenario 'tries to choose another best answer'
+    scenario 'tries to choose another best answer' do
+      within ".answer-#{answer.id}" do
+        click_on 'Best'
+      end
+      
+      expect(find(".answer-#{answer.id}")).to have_content 'Best answer'
+      expect(find(".answer-#{another_answer.id}")).to have_no_content 'Best answer'
+      
+      within ".answer-#{another_answer.id}" do
+        click_on 'Best'
+        
+        expect(page).to have_content 'Best answer'
+        expect(page).to have_no_link 'Best'
+      end
+      
+      expect(find(".answer-#{answer.id}")).to have_no_content 'Best answer'
+      expect(find(".answer-#{another_answer.id}")).to have_content 'Best answer'
+    end
   end
 
   scenario 'Unauthorized user tries to choose the best answer' do
