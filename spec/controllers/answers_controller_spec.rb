@@ -28,30 +28,53 @@ RSpec.describe AnswersController, type: :controller do
       it 'saves a new answer with a foreign key to the question to the database' do
         expect do
           post :create,
-               params: { question_id: question.id, answer: attributes_for(:answer) }
+               params: { question_id: question.id, answer: attributes_for(:answer), format: :js }
         end.to change(question.answers, :count).by(1)
-      end
-
-      it 'redirects to show view' do
-        post :create, params: { question_id: question.id, answer: attributes_for(:answer) }
-        expect(response).to redirect_to question_path(question)
       end
     end
 
     context 'with invalid attributes' do
-      before { post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) } }
+      before do
+        post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }, format: :js
+      end
 
       it 'doesnt save a new answer with invalid parameters' do
         expect { response }.to_not change(question.answers, :count)
       end
+    end
+  end
 
-      it 'renders questions/show template' do
-        expect(response).to render_template 'questions/show'
+  describe 'PATCH #update' do
+    let!(:answer) { create(:answer, question: question, author: user) }
+
+    context 'with valid attributes' do
+      it 'changes answer attributes' do
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+        answer.reload
+        expect(answer.body).to eq 'new body'
+      end
+
+      it 'renders update view' do
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not change answer attributes' do
+        expect do
+          patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+        end.to_not change(answer, :body)
+      end
+
+      it 'renders update view' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+        expect(response).to render_template :update
       end
     end
   end
 
-  describe 'DELETE #destroy' do
+  describe 'DELETE #destroy', js: true do
     before { login(user) }
     let!(:question) { create(:question, author: user) }
 
@@ -59,11 +82,11 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, author: user, question: question) }
 
       it 'deletes the answer from the database' do
-        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to index' do
-        expect(delete(:destroy, params: { id: answer })).to redirect_to root_path
+      it 'renders detroy template' do
+        expect(delete(:destroy, params: { id: answer }, format: :js)).to render_template :destroy
       end
     end
 
@@ -72,11 +95,11 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, author: another_user, question: question) }
 
       it 'does not delete the answer from the database' do
-        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'redirects to question/show' do
-        expect(delete(:destroy, params: { id: answer })).to render_template 'questions/show'
+      it 'renders detroy template' do
+        expect(delete(:destroy, params: { id: answer }, format: :js)).to render_template :destroy
       end
     end
   end

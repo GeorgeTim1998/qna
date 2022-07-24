@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[destroy show]
-  
+
   def new
     @question = Question.new
   end
@@ -18,6 +18,11 @@ class QuestionsController < ApplicationController
     else
       render 'questions/show'
     end
+  end
+
+  def update
+    find_question
+    @question.update(question_params) if current_user.author_of?(@question)
   end
 
   def show
