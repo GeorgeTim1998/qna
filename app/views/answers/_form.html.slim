@@ -5,4 +5,8 @@
     =form.text_area :body
     br
 
+    p
+      = form.label :files
+      = form.file_field :files, multiple: true
+
     =form.submit 'Reply'
