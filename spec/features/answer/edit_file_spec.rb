@@ -28,9 +28,8 @@ feature 'Editing the files' do
   scenario 'Unauthorized user tries to edit attached files' do
     sign_in(another_user)
     visit question_path(question)
-    save_and_open_page
 
-    within(".answers") do
+    within('.answers') do
       expect(page).to have_link 'README.md'
       expect(page).to have_no_content 'Edit the question'
     end
@@ -39,7 +38,7 @@ feature 'Editing the files' do
   scenario 'Unauthenticated user tries to edit attached files' do
     visit question_path(question)
 
-    within(".answers") do
+    within('.answers') do
       expect(page).to have_link 'README.md'
       expect(page).to have_no_content 'Edit the question'
     end
