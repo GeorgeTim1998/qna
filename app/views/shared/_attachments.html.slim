@@ -1,3 +1,4 @@
 - if resource.files.attached?
 	- resource.files.each do |file|
-		p= link_to file.filename.to_s, url_for(file), local: false 
+		p= link_to file.filename.to_s, url_for(file), local: false, remote: true, class: "file-#{file.id}" 
+		p= link_to 'Del file', attachment_path(file), method: :delete, remote: true, class: "delete-file-#{file.id}"
