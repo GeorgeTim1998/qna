@@ -24,5 +24,18 @@ feature 'Editing the files' do
     end
   end
 
-  scenario 'Unauthorized user tries to edit attached files'
+  scenario 'Unauthorized user tries to edit attached files' do
+    sign_in(another_user)
+    visit question_path(question)
+
+    expect(page).to have_link 'README.md'
+    expect(page).to have_no_content 'Edit the question'
+  end
+
+  scenario 'Unauthenticated user tries to edit attached files' do
+    visit question_path(question)
+
+    expect(page).to have_link 'README.md'
+    expect(page).to have_no_content 'Edit the question'
+  end
 end
