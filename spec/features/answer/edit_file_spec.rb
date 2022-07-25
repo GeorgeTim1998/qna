@@ -15,7 +15,6 @@ feature 'Editing the files' do
         click_on 'Edit answer'
         attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
-        save_and_open_page
       end
 
       within '.answer-file' do
@@ -29,15 +28,20 @@ feature 'Editing the files' do
   scenario 'Unauthorized user tries to edit attached files' do
     sign_in(another_user)
     visit question_path(question)
+    save_and_open_page
 
-    expect(page).to have_link 'README.md'
-    expect(page).to have_no_content 'Edit the question'
+    within(".answers") do
+      expect(page).to have_link 'README.md'
+      expect(page).to have_no_content 'Edit the question'
+    end
   end
 
   scenario 'Unauthenticated user tries to edit attached files' do
     visit question_path(question)
 
-    expect(page).to have_link 'README.md'
-    expect(page).to have_no_content 'Edit the question'
+    within(".answers") do
+      expect(page).to have_link 'README.md'
+      expect(page).to have_no_content 'Edit the question'
+    end
   end
 end
