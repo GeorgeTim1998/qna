@@ -39,13 +39,13 @@ feature 'Editing the files' do
     visit question_path(question)
 
     expect(page).to have_link 'README.md'
-    expect(page).to have_no_content 'Edit the question'
+    expect(page).to have_no_content 'Del file'
   end
 
   scenario 'Unauthenticated user tries to edit attached files' do
     visit question_path(question)
 
     expect(page).to have_link 'README.md'
-    expect(page).to have_no_content 'Edit the question'
+    expect(page).to have_no_content 'Del file'
   end
 end
