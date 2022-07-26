@@ -23,6 +23,15 @@ feature 'Editing the files' do
         expect(page).to have_link 'spec_helper.rb'
       end
     end
+
+    scenario 'tries to delete attached files', js: true do
+      within '.answers' do
+        expect(page).to have_link 'README.md'
+        click_on 'Del file'
+
+        expect(page).to have_no_link 'README.md'
+      end
+    end
   end
 
   scenario 'Unauthorized user tries to edit attached files' do
@@ -31,7 +40,7 @@ feature 'Editing the files' do
 
     within('.answers') do
       expect(page).to have_link 'README.md'
-      expect(page).to have_no_content 'Edit the question'
+      expect(page).to have_no_content 'Del file'
     end
   end
 
@@ -40,7 +49,7 @@ feature 'Editing the files' do
 
     within('.answers') do
       expect(page).to have_link 'README.md'
-      expect(page).to have_no_content 'Edit the question'
+      expect(page).to have_no_content 'Del file'
     end
   end
 end
