@@ -29,6 +29,7 @@ class QuestionsController < ApplicationController
   def show
     find_question
     @answer = @question.answers.build
+    @answer.links.new
   end
 
   def create
