@@ -31,4 +31,31 @@ feature do
       expect(page).to have_link 'Google', href: another_url
     end
   end
+
+  describe 'User edits an answer', js: true do
+    before { sign_in(user) }
+    given!(:question) { create(:question, author: user) }
+    given!(:answer) { create(:answer, question: question, author: user) }
+    given!(:link) { create(:link, linkable: answer) }
+    before { visit question_path(question) }
+
+    scenario 'and tries to add the link' do
+      within(".answer-#{answer.id}") do
+        click_on 'Edit answer'
+        click_on 'Add link'
+
+        within all('.nested-fields').last do
+          fill_in 'Link name', with: 'MyGist'
+          fill_in 'Url', with: gist_url
+        end
+
+        click_on 'Save'
+      end
+
+      within('.answers') do
+        expect(page).to have_link link.name, href: link.url
+        expect(page).to have_link 'MyGist', href: gist_url
+      end
+    end
+  end
 end

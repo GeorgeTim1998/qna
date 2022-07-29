@@ -22,6 +22,11 @@
         = f.text_area :body
         = f.label :files
         = f.file_field :files, multiple: true
+        #links
+          = f.fields_for :links do |link|
+            = render 'links/link_fields', f: link
+          .links
+            = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
 
         = f.submit 'Save'
   p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
