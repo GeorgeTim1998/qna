@@ -9,7 +9,7 @@
     p= render 'questions/form'
 .question-file
   p= render 'shared/attachments', resource: @question
-.links
+.question-links
   p Links:
   ul
     - @question.links.each do |link|

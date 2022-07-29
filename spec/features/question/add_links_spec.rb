@@ -15,18 +15,18 @@ feature do
     within('#links') do
       fill_in 'Link name', with: 'My gist'
       fill_in 'Url', with: gist_url
-      
+
       click_on 'Add link'
-      
+
       within all('.nested-fields').last do
         fill_in 'Link name', with: 'Google'
         fill_in 'Url', with: another_url
       end
     end
-    
+
     click_on 'Ask'
-    
-    within('.links') do
+
+    within('.question-links') do
       expect(page).to have_link 'My gist', href: gist_url
       expect(page).to have_link 'Google', href: another_url
     end
