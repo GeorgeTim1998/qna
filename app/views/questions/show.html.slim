@@ -11,9 +11,7 @@
   p= render 'shared/attachments', resource: @question
 .question-links
   p Links:
-  ul
-    - @question.links.each do |link|
-      li= link_to link.name, link.url
+  = render @question.links
 
 .answers
   = render @question.answers.with_attached_files
