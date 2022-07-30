@@ -56,5 +56,17 @@ feature do
         expect(page).to have_link 'MyGist', href: gist_url
       end
     end
+
+    scenario 'and tries to delete the link', js: true do
+      expect(find('.question-links')).to have_link link.name, href: link.url
+
+      within('.question-title-body') do
+        click_on 'Edit question'
+        click_on 'Remove link'
+        click_on 'Save'
+      end
+
+      expect(page).to have_no_link link.name, href: link.url
+    end
   end
 end
