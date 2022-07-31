@@ -12,7 +12,7 @@ feature 'The user can view achievements.' do
 
     scenario 'tries view received achievements' do
       click_on 'Your achievements'
-      
+
       expect(page).to have_content received_achievement.name
       expect(page).to have_content received_achievement.question.title
       expect(page).to have_xpath "//img[contains(@src, 'price')]"
