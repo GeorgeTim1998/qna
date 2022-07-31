@@ -20,5 +20,6 @@ class Question < ApplicationRecord
   def update_best_answer(answer)
     best_answer&.update!(best: false)
     answer.update!(best: true)
+    achievement&.update!(winner: answer.author)
   end
 end
