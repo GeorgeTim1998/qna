@@ -3,7 +3,6 @@
     = answer.body
   p.answer-file 
     = render 'shared/attachments', resource: answer
-  / - if user_signed_in? and current_user == answer.question.author
     
   div class="answer-#{answer.id}"
     - if !answer.best and user_signed_in? and current_user == answer.question.author
