@@ -9,4 +9,10 @@
       = form.label :files
       = form.file_field :files, multiple: true
 
+    #links
+      = form.fields_for :links do |link|
+        = render 'links/link_fields', f: link
+      .links
+        = link_to_add_association 'Add link', form, :links, partial: 'links/link_fields'
+
     =form.submit 'Reply'

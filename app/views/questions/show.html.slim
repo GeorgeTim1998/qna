@@ -9,6 +9,9 @@
     p= render 'questions/form'
 .question-file
   p= render 'shared/attachments', resource: @question
+.question-links
+  p Links:
+  = render @question.links
 
 .answers
   = render @question.answers.with_attached_files

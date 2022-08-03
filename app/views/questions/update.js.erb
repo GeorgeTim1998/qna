@@ -3,4 +3,5 @@ $('.question-errors').html('<%= render 'shared/errors', resource: @question %>')
 <% if !@question.errors.present? %>
   $('.question-title-body').html('<%= j render @question %>');
   $('.question-file').html('<%= j render 'shared/attachments', resource: @question %>')
+  $('.question-links').html('<%= j render @question.links %>')
 <% end %>

@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.links.new
   end
 
   def index
@@ -28,6 +29,7 @@ class QuestionsController < ApplicationController
   def show
     find_question
     @answer = @question.answers.build
+    @answer.links.new
   end
 
   def create
@@ -44,7 +46,9 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [],
+                                                    links_attributes: %i[id name url _destroy],
+                                                    achievement_attributes: %i[id name image])
   end
 
   def find_question
