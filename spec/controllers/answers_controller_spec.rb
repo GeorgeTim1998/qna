@@ -2,8 +2,11 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
-  subject(:question) { create(:question, author: user) }
   before { sign_in(user) }
+  
+  include_examples 'voting', :answer
+  
+  subject(:question) { create(:question, author: user) }
 
   describe 'GET #new' do
     before { get :new, params: { question_id: question.id } }
@@ -75,7 +78,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy', js: true do
-    before { login(user) }
     let!(:question) { create(:question, author: user) }
 
     context 'when the user is the author' do

@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
+  before { sign_in(user) }
+
+  include_examples 'voting', :question
 
   describe 'GET #new' do
     before { login(user) }
