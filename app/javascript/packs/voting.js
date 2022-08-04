@@ -15,7 +15,6 @@ $(document).on("turbolinks:load", () => {
     })
 
     voting.on('ajax:error', (event) => {
-      console.log(voting.find('.voting-errors'))
       voting.find('.voting-errors').html(event.detail[0].error)
     })
   })
