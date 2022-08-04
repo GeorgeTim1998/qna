@@ -42,7 +42,6 @@ feature 'Authenticated user can votes for a question', js: true do
         expect(page).to have_link '-'
       end
     end
-
   end
 
   describe 'Authenticated user' do
@@ -50,7 +49,7 @@ feature 'Authenticated user can votes for a question', js: true do
 
     scenario 'tries to change his question rating' do
       visit question_path(question)
-  
+
       within('.voting') do
         expect(page).to have_no_link '+'
         expect(page).to have_no_link '-'
