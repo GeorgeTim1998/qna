@@ -12,7 +12,7 @@
 .question-links
   p Links:
   = render @question.links
-
+= render 'shared/voting', resource: @question
 .answers
   = render @question.answers.with_attached_files
 = render 'answers/form'
