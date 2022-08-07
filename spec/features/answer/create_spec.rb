@@ -34,6 +34,28 @@ feature 'Create answer', js: true do
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
+
+    scenario 'All users on question_path should see the created answer', js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Body', with: 'Answer3'
+        click_on 'Reply'
+
+        expect(page).to have_content 'Answer3'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'Answer3'
+      end
+    end
   end
 
   describe 'Unauthenticated user' do
