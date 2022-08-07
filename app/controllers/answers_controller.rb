@@ -3,8 +3,8 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[new create]
+  before_action :gon_variables, only: :create
   
-  after_action :gon_variables, only: :create
   after_action :publish_answer, only: :create
 
   def new
@@ -53,7 +53,9 @@ class AnswersController < ApplicationController
   end
 
   def gon_variables
-    gon.question_id = @question.id
+    gon.push({
+      question_id: @question.id
+    })
   end
 
   def publish_answer
