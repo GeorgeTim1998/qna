@@ -4,6 +4,7 @@ RSpec.describe Answer, type: :model do
   describe 'associations' do
     it { should belong_to(:question) }
     it { is_expected.to have_many(:votes).dependent(:destroy) }
+    it { is_expected.to have_many(:comments).dependent(:destroy) }
   end
 
   context 'with author' do

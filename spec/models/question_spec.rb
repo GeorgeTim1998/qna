@@ -6,6 +6,7 @@ RSpec.describe Question, type: :model do
     it { should have_one(:achievement).dependent(:destroy) }
     it { should have_many(:links).dependent(:destroy) }
     it { should have_many(:votes).dependent(:destroy) }
+    it { is_expected.to have_many(:comments).dependent(:destroy) }
   end
 
   context 'with author' do
