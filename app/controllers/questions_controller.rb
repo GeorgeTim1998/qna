@@ -34,6 +34,7 @@ class QuestionsController < ApplicationController
     find_question
     @answer = @question.answers.build
     @answer.links.new
+    @comment = Comment.new
   end
 
   def create
