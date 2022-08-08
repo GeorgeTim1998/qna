@@ -3,6 +3,6 @@
 <% end %>
 
 <% if @comment.persisted? %>
-  $('.question-comments').append('<%= j render @comment %>');
+  $('.' + '<%= @resource.class.to_s.downcase %>' + '-comments').append('<%= j render @comment %>');
 <% end %>
 

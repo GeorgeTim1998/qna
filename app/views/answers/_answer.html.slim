@@ -4,6 +4,13 @@
   p.answer-file 
     = render 'shared/attachments', resource: answer
     
+  div.answer-comments
+    = render answer.comments
+    p.comments 
+      = link_to 'Add comment', '', class: "create-link-comment", data: { id: answer.id } 
+      = render 'comments/form', resource: answer, form_class: "create-#{@answer.id} hidden"
+    p.errors
+
   div class="answer-#{answer.id}"
     - if !answer.best and user_signed_in? and current_user == answer.question.author
       p= link_to 'Best', best_answer_path(answer), method: :patch, remote: true, class: "best-answer-link-#{answer.id}", data: { answer_id: answer.id } 

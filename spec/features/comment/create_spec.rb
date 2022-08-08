@@ -65,6 +65,6 @@ feature 'Authenticated user can add comment' do
   describe 'for answers' do
     given!(:answer) { create(:answer, question: question, author: user) }
 
-    include_examples 'comment', '.answers-comments'
+    include_examples 'comment', '.answer-comments'
   end
 end
