@@ -1,5 +1,8 @@
 class CommentsController < ApplicationController
   before_action :find_resource
+  before_action :gon_variables
+
+  after_action :publish_comment
 
   def create
     @comment = @resource.comments.build(comment_params)
@@ -8,6 +11,20 @@ class CommentsController < ApplicationController
   end
 
   private
+
+  def publish_comment
+    return unless @comment.persisted?
+
+    ActionCable.server.broadcast("questions/#{gon.question_id}",
+                                 { css: "#{@resource.class}-comments".downcase,
+                                   template: ApplicationController.render(partial: 'comments/comment',
+                                                                          locals: { comment: @comment }) })
+  end
+
+  def gon_variables
+    gon.question_id = @resource.id if @resource.instance_of?(Question)
+    gon.question_id = @resource.question.id if @resource.instance_of?(Answer)
+  end
 
   def comment_params
     params.require(:comment).permit(:body)

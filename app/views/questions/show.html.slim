@@ -14,13 +14,12 @@
   = render @question.links
 = render 'shared/voting', resource: @question
 
-- if @question.persisted?
-  div.question-comments
-    = render @question.comments
-    p.comments 
-      = link_to 'Add comment', '', class: "create-link-comment", data: { id: @question.id } 
-      = render 'comments/form', resource: @question, form_class: "create-#{@question.id} hidden"
-    p.errors
+div.question-comments
+  = render @question.comments
+  p.comments 
+    = link_to 'Add comment', '', class: "create-link-comment", data: { id: @question.id } 
+    = render 'comments/form', resource: @question, form_class: "create-#{@question.id} hidden"
+  p.errors
 
 .answers
   = render @question.answers.with_attached_files
