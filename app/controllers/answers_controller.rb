@@ -3,6 +3,9 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[new create]
+  before_action :gon_variables, only: :create
+
+  after_action :publish_answer, only: :create
 
   def new
     @answer = @question.answers.build
@@ -47,5 +50,22 @@ class AnswersController < ApplicationController
 
   def find_question
     @question = Question.find(params[:question_id])
+  end
+
+  def gon_variables
+    gon.push({
+               question_id: @question.id
+             })
+  end
+
+  def publish_answer
+    return unless @answer.persisted?
+
+    ActionCable.server.broadcast("questions/#{@question.id}",
+                                 { css: 'answers',
+                                   template: ApplicationController.render(partial: 'answers/answer_cable',
+                                                                          locals: {
+                                                                            answer: @answer
+                                                                          }) })
   end
 end

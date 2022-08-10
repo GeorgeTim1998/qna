@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     end
   end
 
+  concern :commentable do
+    resource :comments, only: :create, shallow: true
+  end
+
   resources :attachments, only: :destroy
   resources :achievements, only: :index do
     collection do
@@ -16,8 +20,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, only: %i[show new create destroy update], concerns: [:votable] do
-    resources :answers, only: %i[show new create destroy update], shallow: true, concerns: [:votable] do
+  resources :questions, only: %i[show new create destroy update], concerns: %i[votable commentable] do
+    resources :answers, only: %i[show new create destroy update], shallow: true, concerns: %i[votable commentable] do
       member do
         patch :best
       end

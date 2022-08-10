@@ -4,6 +4,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[destroy show]
 
+  after_action :publish_question, only: :create
+
   def new
     @question = Question.new
     @question.links.new
@@ -32,6 +34,7 @@ class QuestionsController < ApplicationController
     find_question
     @answer = @question.answers.build
     @answer.links.new
+    @comment = Comment.new
   end
 
   def create
@@ -55,5 +58,15 @@ class QuestionsController < ApplicationController
 
   def find_question
     @question = Question.with_attached_files.find(params[:id])
+  end
+
+  def publish_question
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast('questions',
+                                 ApplicationController.render(
+                                   partial: 'questions/question',
+                                   locals: { question: @question }
+                                 ))
   end
 end

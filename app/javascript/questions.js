@@ -5,5 +5,11 @@ $(document).on('turbolinks:load', function(){
       var questionId = $(this).data('questionId');
       console.log(questionId);
       $('form#edit-question-' + questionId).removeClass('hidden');
-  })
+  }),
+  $('.question-comments').on('click', ".create-link-comment", function(e) {
+    e.preventDefault();
+    $(this).hide();
+    var id = $(this).data('id');
+    $('form#create-' + id).removeClass('hidden');
+})
 });
