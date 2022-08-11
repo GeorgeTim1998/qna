@@ -48,6 +48,7 @@ class QuestionsController < ApplicationController
 
   def set_variables
     @answer = Answer.new
+    @answer.links.new
     @comment = Comment.new
     @comments = @question.comments.includes(:author)
     @answers = @question.answers.with_attached_files.includes(:author,
