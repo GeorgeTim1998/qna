@@ -21,7 +21,6 @@ RSpec.describe AttachmentsController, type: :controller do
       before { sign_in(another_user) }
 
       it { expect { delete_request }.not_to change(ActiveStorage::Attachment, :count) }
-      it { expect(delete_request).to render_template :destroy }
     end
   end
 end
