@@ -62,7 +62,7 @@ feature 'Authenticated user can votes for a question', js: true do
     visit question_path(question)
     within('.voting') do
       expect(page).to have_content question.rating
-      
+
       expect(page).to have_no_link '+'
       expect(page).to have_no_link '-'
     end

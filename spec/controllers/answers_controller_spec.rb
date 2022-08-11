@@ -27,7 +27,6 @@ RSpec.describe AnswersController, type: :controller do
   describe 'GET #create' do
     let(:question) { create(:question) }
     context 'with valid attributes' do
-
       it 'saves a new answer with a foreign key to the question to the database' do
         expect do
           post :create,

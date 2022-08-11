@@ -11,8 +11,7 @@ class QuestionsController < ApplicationController
     @question.links.new
   end
 
-  def index
-  end
+  def index; end
 
   def destroy
     @question.destroy
@@ -23,8 +22,7 @@ class QuestionsController < ApplicationController
     render_errors(@question) unless @question.update(question_params)
   end
 
-  def show
-  end
+  def show; end
 
   def create
     @question.author = current_user
@@ -44,7 +42,6 @@ class QuestionsController < ApplicationController
                                                     links_attributes: %i[id name url _destroy],
                                                     achievement_attributes: %i[id name image])
   end
-
 
   def set_variables
     @answer = Answer.new
