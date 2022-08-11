@@ -1,8 +1,1 @@
-<% if @comment.errors.present? %>
-  $('.errors').html('<%= render 'shared/errors', resource: @comment %>');
-<% end %>
-
-<% if @comment.persisted? %>
-  $('.' + '<%= @resource.class.to_s.downcase %>' + '-comments').append('<%= j render @comment %>');
-<% end %>
-
+$('.' + '<%= @comment.commentable.class.to_s.downcase %>' + '-comments').append('<%= j render @comment %>');

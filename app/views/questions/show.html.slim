@@ -18,7 +18,7 @@ div.question-comments
   = render @question.comments
   p.comments 
     = link_to 'Add comment', '', class: "create-link-comment", data: { id: @question.id } 
-    = render 'comments/form', resource: @question, form_class: "create-#{@question.id} hidden"
+    = render 'comments/form', form_model: [@question, @comment], form_class: "create-#{@question.id} hidden"
   p.errors
 
 .answers
