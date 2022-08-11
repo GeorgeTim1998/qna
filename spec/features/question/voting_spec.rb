@@ -60,13 +60,11 @@ feature 'Authenticated user can votes for a question', js: true do
 
   scenario 'Unauthenticated user tries to change the rating of the question' do
     visit question_path(question)
-
     within('.voting') do
       expect(page).to have_content question.rating
-
-      click_on '+'
-
-      expect(find('.voting-errors')).to have_content 'You need to sign in or sign up before continuing.'
+      
+      expect(page).to have_no_link '+'
+      expect(page).to have_no_link '-'
     end
   end
 end
