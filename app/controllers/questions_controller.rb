@@ -20,7 +20,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @question.update(question_params)
+    render_errors(@question) unless @question.update(question_params)
   end
 
   def show

@@ -11,5 +11,8 @@ $(document).on('turbolinks:load', function(){
     $(this).hide();
     var id = $(this).data('id');
     $('form#create-' + id).removeClass('hidden');
-})
+}),
+  $(document).on('ajax:error', (event) => {
+    $(event.target.parentElement).find('.errors').html(event.detail[0])
+  })
 });
