@@ -1,47 +1,34 @@
 class QuestionsController < ApplicationController
   include VotedFor
 
-  before_action :authenticate_user!, except: %i[index show]
-  before_action :find_question, only: %i[destroy show]
+  before_action :authenticate_user!, only: :new
 
-  after_action :publish_question, only: :create
+  load_and_authorize_resource
+
+  before_action :set_variables, only: :show
 
   def new
-    @question = Question.new
     @question.links.new
   end
 
-  def index
-    @questions = Question.all
-  end
+  def index; end
 
   def destroy
-    find_question
-    if current_user.author_of?(@question)
-      @question.destroy
-      redirect_to root_path, notice: 'Your question successfully deleted.'
-    else
-      render 'questions/show'
-    end
+    @question.destroy
+    redirect_to root_path, notice: 'Your question successfully deleted.'
   end
 
   def update
-    find_question
-    @question.update(question_params) if current_user.author_of?(@question)
+    render_errors(@question) unless @question.update(question_params)
   end
 
-  def show
-    find_question
-    @answer = @question.answers.build
-    @answer.links.new
-    @comment = Comment.new
-  end
+  def show; end
 
   def create
-    @question = Question.new(question_params)
     @question.author = current_user
 
     if @question.save
+      publish_question
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
@@ -56,8 +43,14 @@ class QuestionsController < ApplicationController
                                                     achievement_attributes: %i[id name image])
   end
 
-  def find_question
-    @question = Question.with_attached_files.find(params[:id])
+  def set_variables
+    @answer = Answer.new
+    @answer.links.new
+    @comment = Comment.new
+    @comments = @question.comments.includes(:author)
+    @answers = @question.answers.with_attached_files.includes(:author,
+                                                              :links,
+                                                              comments: :author)
   end
 
   def publish_question

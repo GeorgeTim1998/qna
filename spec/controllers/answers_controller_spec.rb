@@ -25,9 +25,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #create' do
+    let(:question) { create(:question) }
     context 'with valid attributes' do
-      before { get :new, params: { question_id: question.id } }
-
       it 'saves a new answer with a foreign key to the question to the database' do
         expect do
           post :create,
@@ -69,11 +68,6 @@ RSpec.describe AnswersController, type: :controller do
           patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         end.to_not change(answer, :body)
       end
-
-      it 'renders update view' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
-        expect(response).to render_template :update
-      end
     end
   end
 
@@ -98,10 +92,6 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'does not delete the answer from the database' do
         expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
-      end
-
-      it 'renders detroy template' do
-        expect(delete(:destroy, params: { id: answer }, format: :js)).to render_template :destroy
       end
     end
   end

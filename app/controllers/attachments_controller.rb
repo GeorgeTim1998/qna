@@ -1,14 +1,8 @@
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!
+  load_and_authorize_resource class: ActiveStorage::Attachment
 
   def destroy
-    find_attachment
-    @attachment.purge if current_user.author_of?(@attachment.record)
-  end
-
-  private
-
-  def find_attachment
-    @attachment = ActiveStorage::Attachment.find(params[:id])
+    @attachment.purge
   end
 end

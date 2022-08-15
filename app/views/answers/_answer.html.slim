@@ -8,7 +8,7 @@
     = render answer.comments
     p.comments 
       = link_to 'Add comment', '', class: "create-link-comment", data: { id: answer.id } 
-      = render 'comments/form', resource: answer, form_class: "create-#{@answer.id} hidden"
+      = render 'comments/form', form_model: [answer, Comment.new], form_class: "create-#{@answer.id} hidden"
     p.errors
 
   div class="answer-#{answer.id}"

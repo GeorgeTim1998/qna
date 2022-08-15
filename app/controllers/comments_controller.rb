@@ -1,36 +1,41 @@
 class CommentsController < ApplicationController
-  before_action :find_resource
-  before_action :gon_variables
+  before_action :authenticate_user!, only: :create
 
-  after_action :publish_comment
+  load_resource :question
+  load_resource :answer
+  load_and_authorize_resource :comment, through: %i[question answer]
 
   def create
-    @comment = @resource.comments.build(comment_params)
     @comment.author = current_user
-    @comment.save
+    if @comment.save
+      publish_comment
+    else
+      render_errors(@comment)
+    end
   end
 
   private
 
   def publish_comment
-    return unless @comment.persisted?
-
-    ActionCable.server.broadcast("questions/#{gon.question_id}",
-                                 { css: "#{@resource.class}-comments".downcase,
+    ActionCable.server.broadcast("questions/#{question_id}",
+                                 { css: "#{resource.class}-comments".downcase,
                                    template: ApplicationController.render(partial: 'comments/comment',
                                                                           locals: { comment: @comment }) })
   end
 
-  def gon_variables
-    gon.question_id = @resource.id if @resource.instance_of?(Question)
-    gon.question_id = @resource.question.id if @resource.instance_of?(Answer)
+  def question_id
+    if resource.instance_of?(Question)
+      resource.id
+    else
+      resource.question.id
+    end
   end
 
   def comment_params
     params.require(:comment).permit(:body)
   end
 
-  def find_resource
-    @resource = Answer.find_by(id: params[:answer_id]) || Question.find_by(id: params[:question_id])
+  def resource
+    @comment.commentable
   end
 end

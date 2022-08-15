@@ -124,10 +124,6 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not delete the question from the database' do
         expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
       end
-
-      it 'redirects to question/show' do
-        expect(delete(:destroy, params: { id: question })).to render_template 'questions/show'
-      end
     end
   end
 end

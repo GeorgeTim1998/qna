@@ -13,6 +13,7 @@ feature do
     fill_in 'Body', with: 'My answer'
 
     within('#links') do
+      click_on 'Add link'
       fill_in 'Link name', with: 'My gist'
       fill_in 'Url', with: gist_url
 
