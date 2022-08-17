@@ -18,6 +18,6 @@ RSpec.describe Question, type: :model do
     it { should validate_presence_of(:title) }
     it { should accept_nested_attributes_for :links }
   end
-  
+
   include_examples 'shared methods', :question, :question_with_votes
 end
