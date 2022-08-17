@@ -17,6 +17,7 @@ RSpec.describe Ability, type: :model do
     include_examples 'read, create', :not_to
 
     it { is_expected.to be_able_to :read, :all }
+    it { is_expected.not_to be_able_to :me, User }
     it { is_expected.not_to be_able_to %i[create update destroy], Question }
     it { is_expected.not_to be_able_to %i[create update destroy], Answer }
     it { is_expected.not_to be_able_to %i[destroy], ActiveStorage::Attachment }
@@ -33,6 +34,7 @@ RSpec.describe Ability, type: :model do
     include_examples 'read, create', :to
 
     it { is_expected.to be_able_to :read, :all }
+    it { is_expected.to be_able_to :me, user }
     it { is_expected.not_to be_able_to :best, answer }
     it { is_expected.not_to be_able_to %i[update destroy], question }
     it { is_expected.not_to be_able_to %i[update destroy], answer }
@@ -66,6 +68,7 @@ RSpec.describe Ability, type: :model do
     include_examples 'read, create', :to
 
     it { is_expected.to be_able_to :read, :all }
+    it { is_expected.to be_able_to :me, user }
     it { is_expected.to be_able_to :best, question_answer }
     it { is_expected.not_to be_able_to :best, answer }
     it { is_expected.to be_able_to %i[update destroy], question }

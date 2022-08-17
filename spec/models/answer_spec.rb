@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
   describe 'associations' do
-    it { should belong_to(:question) }
-    it { is_expected.to have_many(:votes).dependent(:destroy) }
-    it { is_expected.to have_many(:comments).dependent(:destroy) }
+    include_examples 'shared associations'
   end
 
   context 'with author' do
@@ -17,9 +15,7 @@ RSpec.describe Answer, type: :model do
     it { should accept_nested_attributes_for :links }
   end
 
-  it 'have many attached files' do
-    expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
-  end
+  include_examples 'shared methods', :answer, :answer_with_votes
 
   describe 'best' do
     subject(:answer) { build(:answer, best: true) }
