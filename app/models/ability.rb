@@ -7,6 +7,7 @@ class Ability
     if user.present?
       can :create, :all
       can :received, Achievement
+      can :me, User, id: user.id
 
       ability_to_vote(user)
       abilities_for_author(user)
