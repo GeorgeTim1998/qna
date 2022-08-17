@@ -1,4 +1,4 @@
-module ApiHelpes
+module ApiHelpers
   def json
     @json ||= JSON.parse(response.body)
   end
