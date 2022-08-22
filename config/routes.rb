@@ -33,6 +33,8 @@ Rails.application.routes.draw do
         patch :best
       end
     end
+
+    resources :subscriptions, only: %i[create destroy]
   end
 
   namespace :api do
