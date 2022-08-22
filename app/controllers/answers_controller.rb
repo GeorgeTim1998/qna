@@ -23,6 +23,7 @@ class AnswersController < ApplicationController
   def create
     @answer.author = current_user
     if @answer.save
+      SubscriptionJob.perform_later(@answer)
       gon_variables
       publish_answer
     else
