@@ -14,5 +14,8 @@ $(document).on('turbolinks:load', function(){
 }),
   $(document).on('ajax:error', (event) => {
     $(event.target.parentElement).find('.errors').html(event.detail[0])
+  }),
+  $('.subscription').on('ajax:success', (event) => {
+    $(event.target).replaceWith(event.detail[0])
   })
 });

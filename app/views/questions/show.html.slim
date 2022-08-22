@@ -14,6 +14,10 @@
   = render @question.links
 = render 'shared/voting', resource: @question
 
+.subscription
+  .errors
+  = subscription_links(@question, @subscription)
+  
 div.question-comments
   = render @question.comments
   p.comments 
