@@ -5,9 +5,7 @@ feature 'Author of the answer gets achievement' do
   let!(:another_user) { create(:user) }
   let(:question) { create(:question, author: user) }
   let!(:answer) { create(:answer, question: question, author: another_user) }
-  let!(:achievement) do
-    create(:achievement, question: question, image: find_file('storage/price.jpg').first)
-  end
+  let!(:achievement) { create(:achievement, question: question) }
 
   scenario 'The author of the best answer gets an achievement', js: true do
     sign_in(user)

@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'Editing the files' do
   given(:user) { create(:user) }
   given(:another_user) { create(:user) }
-  given(:question) { create(:question, author: user, files: find_file('README.md')) }
+  given(:question) { create(:question_with_attachments, author: user) }
 
   describe 'Authorized user', js: true do
     background { sign_in(user) }

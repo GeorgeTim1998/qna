@@ -4,7 +4,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   before { sign_in(user) }
 
-  include_examples 'voting', :answer
+  include_examples 'Votable', :answer
 
   subject(:question) { create(:question, author: user) }
 

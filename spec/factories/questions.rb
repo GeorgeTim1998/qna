@@ -35,5 +35,18 @@ FactoryBot.define do
     factory :question_with_attachments do
       files { [Rack::Test::UploadedFile.new(Rails.root.join('README.md'))] }
     end
+
+    factory :question_with_associations do
+      files do
+        [Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')),
+         Rack::Test::UploadedFile.new(Rails.root.join('spec/spec_helper.rb'))]
+      end
+
+      after(:build) do |question|
+        create_list(:vote, 2, :for_question, votable: question)
+        create_list(:link, 2, :for_question, linkable: question)
+        create_list(:comment, 2, :for_question, commentable: question)
+      end
+    end
   end
 end

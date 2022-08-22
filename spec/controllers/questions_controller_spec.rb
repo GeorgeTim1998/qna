@@ -4,7 +4,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   before { sign_in(user) }
 
-  include_examples 'voting', :question
+  include_examples 'Votable', :question
 
   describe 'GET #new' do
     before { login(user) }
