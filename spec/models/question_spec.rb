@@ -6,6 +6,8 @@ RSpec.describe Question, type: :model do
 
     it { should have_many(:answers).dependent(:destroy) }
     it { should have_one(:achievement).dependent(:destroy) }
+    it { is_expected.to have_many(:subscriptions).dependent(:destroy) }
+    it { is_expected.to have_many(:subscribers).through(:subscriptions) }
   end
 
   context 'with author' do

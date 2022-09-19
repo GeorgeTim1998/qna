@@ -6,6 +6,7 @@ RSpec.shared_examples 'read, create' do |verb|
   it { is_expected.send verb, be_able_to(:create, Question) }
   it { is_expected.send verb, be_able_to(:create, Answer) }
   it { is_expected.send verb, be_able_to(:create, Comment) }
+  it { is_expected.send verb, be_able_to(:create, Subscription) }
 end
 
 RSpec.describe Ability, type: :model do
@@ -24,6 +25,7 @@ RSpec.describe Ability, type: :model do
     it { is_expected.not_to be_able_to :change_rating, Question }
     it { is_expected.not_to be_able_to :change_rating, Answer }
     it { is_expected.not_to be_able_to :best, Answer }
+    it { is_expected.not_to be_able_to :manage, Subscription }
   end
 
   describe 'for user' do
@@ -39,6 +41,7 @@ RSpec.describe Ability, type: :model do
     it { is_expected.not_to be_able_to %i[update destroy], question }
     it { is_expected.not_to be_able_to %i[update destroy], answer }
     it { is_expected.not_to be_able_to %i[destroy], create(:question_with_attachments).files.last }
+    it { is_expected.not_to be_able_to :destroy, create(:subscription) }
 
     context 'when he did not vote' do
       it { is_expected.to be_able_to :change_rating, question }
@@ -78,5 +81,6 @@ RSpec.describe Ability, type: :model do
     it { is_expected.not_to be_able_to :change_rating, answer }
     it { is_expected.not_to be_able_to :cancel, question }
     it { is_expected.not_to be_able_to :cancel, answer }
+    it { is_expected.to be_able_to :destroy, create(:subscription, user: user) }
   end
 end
