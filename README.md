@@ -19,8 +19,10 @@ brew update
 brew install postgres
 ```
 Redis:
-- `sudo apt-get install redis-server`
-- `redis-server`
+```
+sudo apt-get install redis-server
+redis-server
+```
 To use rvm:
 ```
 # Install gpg and rvm
